@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Futuristic CSS */
+        body {
+            background: #121212;
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+        }
+        input, textarea {
+            padding: 10px;
+            margin: 10px;
+            background-color: #222;
+            color: #fff;
+            border: none;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <title>Custom Programming Language</title>
+</head>
+<body>
+    <h1>Custom Programming Language</h1>
+    <input type="text" id="inputCode" placeholder="Write your code here...">
+    <br>
+    <button onclick="runCode()">Run</button>
+    <br>
+    <textarea id="output" rows="10" cols="50" readonly></textarea>
+    <script>
+        function runCode() {
+            var code = document.getElementById('inputCode').value;
+            var output = interpretCode(code);
+            document.getElementById('output').value = output;
+        }
+        
+        function interpretCode(code) {
+            // Input function
+            if (code.startsWith('input')) {
+                return prompt('Enter input:');
+            }
+            // Basic arithmetic operations
+            else if (code.includes('+') || code.includes('-') || code.includes('*') || code.includes('/')) {
+                try {
+                    return eval(code);
+                } catch (error) {
+                    return "Error: " + error.message;
+                }
+            }
+            // If statement support
+            else if (code.startsWith('if ') && code.includes(':')) {
+                var condition = code.substring(3, code.indexOf(':'));
+                var body = code.substring(code.indexOf(':') + 1);
+                if (eval(condition)) {
+                    return interpretCode(body);
+                }
+            }
+            // Basic "print" function
+            else if (code.startsWith('print ')) {
+                return code.substring(6);
+            } else {
+                return "SyntaxError: Invalid code";
+            }
+        }
+    </script>
+</body>
+</html>
